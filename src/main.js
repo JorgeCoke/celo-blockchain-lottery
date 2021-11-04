@@ -31,7 +31,7 @@ const connectCeloWallet = async function () {
       );
       hideSpinner();
     } catch (error) {
-      alert(error);
+      alert(`${error}`);
       hideSpinner();
     }
   } else {
@@ -186,7 +186,7 @@ document.querySelector("#lotteries").addEventListener("click", async (e) => {
     try {
       await approve(lotteries[index].pricePerTicket);
     } catch (error) {
-      alert(error);
+      alert(`${error}`);
       hideSpinner();
     }
     showSpinner(`Waiting payment for "${lotteries[index].name}"...`);
@@ -199,7 +199,7 @@ document.querySelector("#lotteries").addEventListener("click", async (e) => {
       getLotteries();
       getBalance();
     } catch (error) {
-      alert(error);
+      alert(`${error}`);
       hideSpinner();
     }
   }
@@ -215,7 +215,7 @@ document.querySelector("#lotteries").addEventListener("click", async (e) => {
       getLotteries();
       getBalance();
     } catch (error) {
-      alert(error);
+      alert(`${error}`);
     }
   }
 });
