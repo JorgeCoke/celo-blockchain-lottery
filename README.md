@@ -2,6 +2,8 @@
 
 A lottery platform built on top of Celo Blockchain 🔦
 
+Live demo: https://jorgecoke.github.io/celo-blockchain-lottery/
+
 ## Rules are simple
 
 - Anyone can create a lottery and therefore, becomes the owner of the lottery
