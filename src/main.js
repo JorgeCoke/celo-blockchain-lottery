@@ -138,12 +138,16 @@ const createLottery = async function () {
   if (!ticketPrice || ticketPrice.length < 0) {
     alert("Ticket price is required");
   }
-  await contract.methods
-    .addLottery(name, ticketPrice)
-    .send({ from: kit.defaultAccount });
-  document.querySelector("#name").value = "";
-  document.querySelector("#ticketPrice").value = "";
-  await getLotteries();
+  try {
+    await contract.methods
+      .addLottery(name, ticketPrice)
+      .send({ from: kit.defaultAccount });
+    document.querySelector("#name").value = "";
+    document.querySelector("#ticketPrice").value = "";
+    await getLotteries();
+  } catch (error) {
+    alert(error);
+  }
 };
 
 window.addEventListener("load", async () => {
