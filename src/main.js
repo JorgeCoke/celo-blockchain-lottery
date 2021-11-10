@@ -3,10 +3,12 @@ import { newKitFromWeb3 } from "@celo/contractkit";
 import BigNumber from "bignumber.js";
 import celoLotteryAbi from "../contract/celo-lottery.abi.json";
 import erc20Abi from "../contract/erc20.abi.json";
-
-const ERC20_DECIMALS = 18;
-const CeloLotteryContractAddress = "0x8547aA5EE21B1F457edd2371012b9174F145788b";
-const cUSDContractAddress = "0x874069Fa1Eb16D44d622F2e0Ca25eeA172369bC1";
+import {
+  CeloLotteryContractAddress,
+  cUSDContractAddress,
+  ERC20_DECIMALS,
+  ZERO_ADDRESS,
+} from "../utils/constants";
 
 let kit;
 let currentBalance;
@@ -31,7 +33,7 @@ const connectCeloWallet = async function () {
       );
       hideSpinner();
     } catch (error) {
-      alert(`${error}`);
+      alert(`${error.message}`);
       hideSpinner();
     }
   } else {
@@ -80,7 +82,7 @@ const renderLotteries = function () {
       <p><strong>Name: </strong>${lottery.name}</p>
       <p><strong>Owner: </strong>${lottery.owner}</p>
       <p><strong>Winner: </strong>${
-        lottery.winner === "0x0000000000000000000000000000000000000000"
+        lottery.winner === ZERO_ADDRESS
           ? "Lottery not finished"
           : lottery.winner
       }</p>
@@ -91,12 +93,12 @@ const renderLotteries = function () {
     <p><strong>Prize: </strong>${prize} cUSD</p>
     </div>
     <div class="lottery-footer">`;
-    if (lottery.winner === "0x0000000000000000000000000000000000000000") {
+    if (lottery.winner === ZERO_ADDRESS) {
       if (lottery.owner !== kit.defaultAccount && currentBalance >= prize) {
         newLotteryContainer.innerHTML += `<button class="buy-lottery-btn" id="${index}">Buy Ticket</button>`;
       }
       if (lottery.owner !== kit.defaultAccount && currentBalance < prize) {
-        newLotteryContainer.innerHTML += `<button class="buy-lottery-btn" disabled>You don't have enoght balance</button>`;
+        newLotteryContainer.innerHTML += `<button class="buy-lottery-btn" disabled>You don't have enough balance</button>`;
       }
       if (lottery.owner === kit.defaultAccount) {
         newLotteryContainer.innerHTML += `<button class="buy-lottery-btn" disabled>Owner can not play!</button>`;
@@ -186,7 +188,7 @@ document.querySelector("#lotteries").addEventListener("click", async (e) => {
     try {
       await approve(lotteries[index].pricePerTicket);
     } catch (error) {
-      alert(`${error}`);
+      alert(`${error.message}`);
       hideSpinner();
     }
     showSpinner(`Waiting payment for "${lotteries[index].name}"...`);
@@ -199,7 +201,7 @@ document.querySelector("#lotteries").addEventListener("click", async (e) => {
       getLotteries();
       getBalance();
     } catch (error) {
-      alert(`${error}`);
+      alert(`${error.message}`);
       hideSpinner();
     }
   }
@@ -215,7 +217,7 @@ document.querySelector("#lotteries").addEventListener("click", async (e) => {
       getLotteries();
       getBalance();
     } catch (error) {
-      alert(`${error}`);
+      alert(`${error.message}`);
     }
   }
 });

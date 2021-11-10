@@ -28,6 +28,11 @@ contract Lottery {
     
     uint internal currentLotteryIndex = 0;
     mapping (uint => LotteryStruct) internal lotteries;
+    
+    modifier onlyLotteryOwner(uint index){
+         require(msg.sender == lotteries[index].owner, "You are not the owner");
+        _;
+    }
 
 
     function addLottery(string memory name, uint pricePerTicket) public {
@@ -58,8 +63,7 @@ contract Lottery {
     }
     
 
-    function declareWinner(uint index) public payable {
-        require(msg.sender == lotteries[index].owner, "You are not the owner");
+    function declareWinner(uint index) public onlyLotteryOwner(index) payable {
         require(lotteries[index].ticketsLength > 1, "Participants must be grater than 1");
         uint winnerIndex = uint(block.timestamp) % lotteries[index].ticketsLength;  // develop purposes only
         uint prize = getPrizeByLotteryIndex(index);
