@@ -94,10 +94,10 @@ const renderLotteries = function () {
     </div>
     <div class="lottery-footer">`;
     if (lottery.winner === ZERO_ADDRESS) {
-      if (lottery.owner !== kit.defaultAccount && currentBalance >= prize) {
+      if (lottery.owner !== kit.defaultAccount && currentBalance >= pricePerTicket) {
         newLotteryContainer.innerHTML += `<button class="buy-lottery-btn" id="${index}">Buy Ticket</button>`;
       }
-      if (lottery.owner !== kit.defaultAccount && currentBalance < prize) {
+      if (lottery.owner !== kit.defaultAccount && currentBalance < pricePerTicket) {
         newLotteryContainer.innerHTML += `<button class="buy-lottery-btn" disabled>You don't have enough balance</button>`;
       }
       if (lottery.owner === kit.defaultAccount) {
